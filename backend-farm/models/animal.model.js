@@ -15,6 +15,10 @@ const AnimalScheme = new mongoose.Schema({
         type: String,
         required: [true, "Type is required"]
     },
+    assigned:{
+        type: Boolean,
+        default: false
+    },
     pen_id:{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Pen'

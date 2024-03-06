@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
 const db_name = 'farm_db'
-mongoose.connect(`mongodb://localhost/${db_name}`,{
+mongoose.connect(`mongodb://127.0.0.1:27017/${db_name}`,{
     /*Variables para evitar validaciones y controles de accesos de MongoDB */
     useNewUrlParser: true,
     useUnifiedTopology: true
