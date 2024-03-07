@@ -10,26 +10,43 @@
         <form [formGroup]="formSettings" (submit)="save()">
           <div class="form-group">
             <label for="corral" style="font-weight: bold;">Corral:</label>
-            <select class="form-control" [formControl]="corralControl" id="corral" (change)="loadCapacities()" required>
+            <select class="form-control" [formControl]="corralControl" id="corral" required>
                 <option [ngValue]="null" disabled>--Seleccione--</option>
                 <option *ngFor="let item of corrales" [value]="item._id">{{item?.name}}</option>
             </select>
           </div>
           <br/>
+          <div class="form-group">
+            <label for="tipoAnimal" style="font-weight: bold;">Tipo de Animal:</label>
+            <select class="form-control" [formControl]="typeControl" id="tipoAnimal" (change)="loadCapacities()" required>
+              <option [ngValue]="null" disabled>--Seleccione--</option>
+              <option value="peligroso">Peligroso</option>
+              <option value="noPeligroso">No Peligroso</option>
+            </select>
+          </div>
+          <br/>
 
-          <div class="row">
-            <div class="col-md-12">
-                <label for="animals" style="font-weight: bold;">Animales:</label>
-                <div class="input-group" *ngFor="let capacity of capacities; let i = index">
-                    <select class="form-control" id="animals" [formControlName]="'animal' + i">
-                        <option *ngFor="let animal of availableAnimals" [value]="animal">{{animal}}</option>
-                    </select>
-                    <div class="input-group-append">
-                        <button class="btn btn-outline-secondary" type="button" (click)="addAnimal(i)">+</button>
-                        <button class="btn btn-outline-secondary" type="button" (click)="removeAnimal(i)">-</button>
-                    </div>
-                </div>
+          <!-- Botones de agregar y eliminar -->
+        <div class="row">
+          <div class="col-md-12">
+            <div class="input-group justify-content-end" *ngIf="typeControl.value">
+              <button style="border-color: gray;" class="bg-secondary btn btn-primary" type="button" (click)="addAnimal()">+</button>
+              <button style="border-color: gray;" class="bg-secondary btn btn-primary" type="button" (click)="removeAnimal()">-</button>
             </div>
+          </div>
+        </div>
+
+        <!-- Combo boxes -->
+        <div class="row">
+          <label *ngIf="typeControl.value" for="corral" style="font-weight: bold;">Animal:</label>
+          <div class="col-md-12">
+            <div class="input-group" *ngFor="let capacity of capacities; let i = index">
+              <select class="form-control" id="animals" [formControlName]="'animal' + i">
+                <option [ngValue]="null" disabled>--Seleccione--</option>
+                <option *ngFor="let animal of availableAnimals" [value]="animal?._id" [disabled]="shouldDisableOption(animal._id, i)">{{animal?.animal}}</option>
+              </select>
+            </div>
+          </div>
         </div>
         <br/>
           <div class="row">

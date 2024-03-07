@@ -1,1 +1,61 @@
-<p>animals-report works!</p>
+<div class="container mt-5">
+    <div class="row">
+      <div class="col-md-12 text-center">
+        <h2>Registro de Animales</h2>
+      </div>
+    </div>
+    <br/>
+    <div class="row justify-content-center">
+      <div class="col-md-6">
+        <form>
+          <div class="form-group">
+            <label for="corral" style="font-weight: bold;">Corral:</label>
+            <select class="form-control" [formControl]="corralControl" id="corral" required>
+                <option [ngValue]="null" disabled>--Seleccione--</option>
+                <option *ngFor="let item of corrales" [value]="item._id">{{item?.name}}</option>
+            </select>
+          </div>
+        </form>
+        </div>
+    </div>
+    <br/><br/>
+
+    <!-- Aquí comienza la tabla -->
+  <div class="row mt-3">
+    <div class="col-md-12">
+      <table class="table text-center table-hover table-striped">
+        <thead>
+          <tr>
+            <th scope="col">Animal</th>
+            <th scope="col">Edad</th>
+            <th scope="col">Asignado</th>
+            <th scope="col">Peligroso</th>
+          </tr>
+        </thead>
+        <tbody class="table-group-divider">
+          <tr *ngFor="let animal of animales">
+            <td>{{ animal.animal }}</td>
+            <td>{{ animal.age }}</td>
+            <td>{{ animal.assigned? "Si": "No" }}</td>
+            <td>{{ animal.type === "noPeligroso"? "No": "Si" }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="form-group text-center">
+    <label for="promedio" style="font-weight: bold;">Promedio: {{ promedio }}</label>
+ </div>
+  <!-- Aquí termina la tabla -->
+
+  <div class="row justify-content-center mt-3">
+    <div class="col-md-6">
+      <button [routerLink]="['/farm']" class="bg-secondary btn btn-primary w-100">Regresar</button>
+    </div>
+    <div class="col-md-6">
+      <button (click)="generateReport()" class="bg-success btn btn-primary w-100">Generar Reporte</button>
+    </div>
+  </div>
+</div>
+  

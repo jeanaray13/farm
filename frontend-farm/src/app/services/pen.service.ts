@@ -24,4 +24,9 @@ export class PenService {
   getAllPen():Observable<any>{
     return this.http.get<any>(`${this.URL_BASE}/pens`);
   }
+
+  //PUT PEN
+  putPen(id:number,obj:any):Observable<any> {
+    return this.http.put<any>(`${this.URL_BASE}/pen/${id}`,obj);
+  }
 }
