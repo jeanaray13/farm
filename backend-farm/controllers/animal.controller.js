@@ -3,9 +3,9 @@ const Animal = require('../models/animal.model');
 
 //POST Animal
 module.exports.createAnimal = (request,response) => {
-    const {animal, age, type, pen_id} = request.body;
-    Animal.create({animal, age, type, pen_id})
-        .then(animal => response.status(200).json({insertedAnimal: pen, msg:"Sucessful animal creation"}))
+    const {animal, age, type} = request.body;
+    Animal.create({animal, age, type})
+        .then(animal => response.status(200).json({insertedAnimal: animal, msg:"Sucessful animal creation"}))
         .catch(err => response.status(400).json(err))
 }
 

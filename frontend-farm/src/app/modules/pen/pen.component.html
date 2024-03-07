@@ -7,19 +7,24 @@
     <br/>
     <div class="row justify-content-center">
       <div class="col-md-6">
-        <form>
+        <form [formGroup]="formPen" (submit)="save()">
           <div class="form-group">
             <label for="nombreCorral" style="font-weight: bold;">Nombre:</label>
-            <input type="text" class="form-control" id="nombreCorral" placeholder="Ejm: Corral de Caballos">
+            <input type="text" class="form-control" formControlName="name" id="nombreCorral" placeholder="Ejm: Corral de Caballos" (keydown.enter)="$event.preventDefault()">
           </div>
           <br/>
           <div class="form-group">
             <label for="capacidad" style="font-weight: bold;">Capacidad: </label>
-            <input type="number" class="form-control" id="capacidad" placeholder="0">
+            <input type="number" class="form-control" formControlName="capacity" id="capacidad" placeholder="0" (keydown.enter)="$event.preventDefault()">
           </div>
           <br/>
-          <div class="form-group">
-            <button type="submit" class="bg-success btn btn-primary w-100">Enviar</button>
+          <div class="row">
+            <div class="col-md-6">
+                <button [routerLink]="['/farm']" class="bg-secondary btn btn-primary w-100">Regresar</button>
+            </div>
+            <div class="col-md-6">
+                <button type="submit" class="bg-success btn btn-primary w-100">Enviar</button>
+            </div>
           </div>
           
         </form>

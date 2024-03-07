@@ -19,10 +19,10 @@ const AnimalScheme = new mongoose.Schema({
         type: Boolean,
         default: false
     },
-    pen_id:{
+    /*pen_id:{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Pen'
-    }
+    }*/
 });
 
 //Definición del modelo
