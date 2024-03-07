@@ -13,7 +13,7 @@ const PenScheme = new mongoose.Schema({
     },
     animals:[{
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'Animal'
+        ref: 'Animal',
     }]
 });
 

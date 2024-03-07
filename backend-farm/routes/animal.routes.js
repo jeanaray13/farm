@@ -8,4 +8,7 @@ module.exports = function(app){
     app.get('/api/animal/:id', AnimalController.getAnimal);
     app.put('/api/animal/:id', AnimalController.updateAnimal);
     app.delete('/api/animal/:id', AnimalController.deleteAnimal);
+    app.get('/api/animalsType/:type', AnimalController.getAnimalsByType);
+    app.get('/api/animalsPen/:pen', AnimalController.getAnimalsByPen);
+    app.get('/api/animalsPen/average/:pen', AnimalController.getAverage);
 }
