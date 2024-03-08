@@ -35,7 +35,7 @@ AccountScheme.virtual('confirmPassword')
 .set(value => this.confirmPassword = value);
 
 AccountScheme.pre('validate', function(next){
-    if(this.password != toString.confirmPassword){
+    if(this.password != this.confirmPassword){
         this.invalidate('confirmPassword','Password must match!')
     }
     next();

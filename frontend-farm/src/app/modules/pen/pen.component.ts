@@ -39,7 +39,7 @@ export class PenComponent implements OnInit {
       capacity: this.formPen.value.capacity
     };
 
-    if(this.formPen.value.name !== null || this.formPen.value.capacity !== null){
+    if(this.formPen.value.name !== null && this.formPen.value.capacity !== null){
       this._penService.sendPen(formData).subscribe({
         next:(pen:any)=>{
           if(pen.msg){

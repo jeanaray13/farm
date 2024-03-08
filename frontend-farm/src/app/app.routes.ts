@@ -4,8 +4,18 @@ import { PenComponent } from './modules/pen/pen.component';
 import { AnimalComponent } from './modules/animal/animal.component';
 import { AnimalsReportComponent } from './modules/animals-report/animals-report.component';
 import { SettingsComponent } from './modules/settings/settings.component';
+import { LoginComponent } from './modules/login/login.component';
+import { SignUpComponent } from './modules/sign-up/sign-up.component';
 
 export const routes: Routes = [
+    {
+        path: '',
+        component: LoginComponent
+    },
+    {
+        path: 'sign-up',
+        component: SignUpComponent
+    },
     {
         path: 'farm',
         component: MainComponent

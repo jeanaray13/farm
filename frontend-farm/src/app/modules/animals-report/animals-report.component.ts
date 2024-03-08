@@ -42,14 +42,12 @@ export class AnimalsReportComponent implements OnInit{
 
 
     this.corralControl.valueChanges.subscribe(selectedValue => {
-      console.log('Valor seleccionado:', selectedValue);
       this._animalService.getAnimalsByPen(selectedValue).subscribe((data)=>{
         this.animales = data;
-        console.log(this.animales);
       })
 
       this._animalService.getAverage(selectedValue).subscribe((promedio)=>{
-        this.promedio = promedio;
+        this.promedio = promedio.toFixed(2);
       })
     });
     

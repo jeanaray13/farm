@@ -119,9 +119,6 @@ export class SettingsComponent implements OnInit {
       }
     }
 
-    // Mostrar los valores seleccionados en la consola
-    console.log("Animales seleccionados:", selectedAnimals);
-
     const formPen = {
       animals: selectedAnimals
     }
@@ -130,22 +127,34 @@ export class SettingsComponent implements OnInit {
       assigned: true,
       pen_id: this.corralControl.value
     }
+    
+    if(this.typeControl.value !== null && this.corralControl.value !== null){
+      if (selectedAnimals.length === 0) {
+        this._utilService.showAlert('Datos incompletos', 'Debe seleccionar al menos un animal', 'WARNING');
+        return; // Detener la ejecución si no hay animales seleccionados
+    }
+      this._penService.putPen(this.corralControl.value,formPen).subscribe({
+        next:() => {
+          for (let i = 0; i < selectedAnimals.length; i++) {
+            this._animalService.putAnimal(selectedAnimals[i],formAnimal).subscribe({
+              next:() =>{
+  
+              }
+            })
+          }
+          this._utilService.showAlert('Registro Exitoso','Se ha configurado la información correctamente','SUCCESS');
+          this.typeControl.setValue(null);
+          this.corralControl.setValue(null);
+          this.availableAnimals = [];
+          this.capacities.pop();
+        } 
+      })
+    }
+    else{
+      this._utilService.showAlert('Datos incompletos','Falta completar los campos','WARNING');
+    }
 
-    this._penService.putPen(this.corralControl.value,formPen).subscribe({
-      next:() => {
-        for (let i = 0; i < selectedAnimals.length; i++) {
-          this._animalService.putAnimal(selectedAnimals[i],formAnimal).subscribe({
-            next:() =>{
 
-            }
-          })
-        }
-        this._utilService.showAlert('Registro Exitoso','Se ha configurado la información correctamente','SUCCESS');
-        this.typeControl.setValue(null);
-        this.corralControl.setValue(null);
-        this.availableAnimals = [];
-        this.capacities.pop();
-      } 
-    })
+    
   }
 }

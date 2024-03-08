@@ -41,7 +41,8 @@ export class AnimalComponent implements OnInit {
       age: this.formAnimal.value.age,
       type: this.typeControl.value
     };
-    if(this.formAnimal.value.animal !== null || this.formAnimal.value.age !== null || this.formAnimal.value.type !== null){
+
+    if(this.formAnimal.value.animal !== null && this.formAnimal.value.age !== null && this.typeControl.value !== null){
       this._animalService.sendAnimal(formData).subscribe({
         next:(animal:any)=>{
           if(animal.msg){
