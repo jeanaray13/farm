@@ -1,32 +1,38 @@
 <div class="container mt-5">
-    <div class="row">
-      <div class="col-md-12 text-center">
-        <h2>Iniciar Sesión</h2>
-      </div>
+  <!--Título-->
+  <div class="row">
+    <div class="col-md-12 text-center">
+      <h2>Iniciar Sesión</h2>
     </div>
-    <br/>
-    <div class="row justify-content-center">
-      <div class="col-md-6">
-        <form [formGroup]="formLogin" (submit)="login()">
-          <div class="form-group">
-            <label for="username" style="font-weight: bold;">Usuario:</label>
-            <input type="text" class="form-control" formControlName="email" id="email" placeholder="correo@ejemplo.com" required (keydown.enter)="$event.preventDefault()">
-          </div>
-          <br/>
-          <div class="form-group">
-            <label for="password" style="font-weight: bold;">Contraseña: </label>
-            <input type="password" class="form-control" formControlName="password" id="password" placeholder="*********" required>
-          </div>
-          <br/><br/>
-          <div class="row">
-            <button type="submit" class="bg-success btn btn-primary w-100">Iniciar Sesión</button>
-          </div>
-        </form>
-        <br/>
-        <div class="row">
-            <button [routerLink]="['/sign-up']" class="bg-secondary btn btn-primary w-100">Crear Cuenta</button>
+  </div>
+  <br/>
+  
+  <div class="row justify-content-center">
+    <div class="col-md-6">
+      <form [formGroup]="formLogin" (submit)="login()">
+        <!--Campo Usuario-->
+        <div class="form-group">
+          <label for="username" style="font-weight: bold;">Usuario:</label>
+          <input type="text" class="form-control" formControlName="email" id="email" placeholder="correo@ejemplo.com" required (keydown.enter)="$event.preventDefault()">
         </div>
+        <br/>
+        <!--Campo contraseña-->
+        <div class="form-group">
+          <label for="password" style="font-weight: bold;">Contraseña: </label>
+          <input type="password" class="form-control" formControlName="password" id="password" placeholder="*********" required>
+        </div>
+        <br/><br/>
+        <!--Iniciar Sesión-->
+        <div class="row">
+          <button type="submit" class="bg-success btn btn-primary w-100">Iniciar Sesión</button>
+        </div>
+      </form>
+      <br/>
+      <!--Botón para crear cuenta-->
+      <div class="row">
+          <button [routerLink]="['/sign-up']" class="bg-secondary btn btn-primary w-100">Crear Cuenta</button>
       </div>
     </div>
   </div>
+</div>
   

@@ -14,19 +14,23 @@ import { RouterLink } from '@angular/router';
   providers:[AnimalService, UtilService]
 })
 export class AnimalComponent implements OnInit {
+  //Variables iniciales
   formAnimal !: FormGroup;
   typeControl = new FormControl();
 
+  //Constructor
   constructor(
     private fb: FormBuilder,
     private _animalService: AnimalService,
     private _utilService: UtilService
   ){}
 
+  //Inicio del componente
   ngOnInit(): void {
     this.initForm();
   }
 
+  //Establecimiento del formulario
   initForm(){
     this.formAnimal = this.fb.group({
       animal: [null, Validators.required],
@@ -35,18 +39,25 @@ export class AnimalComponent implements OnInit {
     });
   }
 
+  //Función que guarda el registro
   save(){
+    //Establecimiento del formato de envío
     const formData = {
       animal: this.formAnimal.value.animal,
       age: this.formAnimal.value.age,
       type: this.typeControl.value
     };
 
+    //Si los campos no están vacíos
     if(this.formAnimal.value.animal !== null && this.formAnimal.value.age !== null && this.typeControl.value !== null){
+      //Envío de datos
       this._animalService.sendAnimal(formData).subscribe({
         next:(animal:any)=>{
+          //Si recibe un mensaje de éxito
           if(animal.msg){
+            //Mensaje de éxito
             this._utilService.showAlert('Registro Exitoso','Se ha guardado la información correctamente','SUCCESS');
+            //Limpieza del formulario
             this.typeControl.setValue(null);
             this.formAnimal.reset();
           }
@@ -54,6 +65,7 @@ export class AnimalComponent implements OnInit {
       })
     }
     else{
+      //Mensaje advertencia
       this._utilService.showAlert('Datos incompletos','Falta completar los campos','WARNING');
     }
     

@@ -16,16 +16,17 @@ import { AnimalService } from '../../services/animal.service';
   providers:[PenService,UtilService, AnimalService]
 })
 export class SettingsComponent implements OnInit {
+  //Variables iniciales
   formSettings !: FormGroup;
   corralControl = new FormControl();
+  typeControl = new FormControl();
 
   corrales: any[]=[];
   capacities:any;
   availableAnimals: any[]=[];
   selectedCorral:any;
 
-  typeControl = new FormControl();
-
+  //Constructor
   constructor(
     private fb: FormBuilder,
     private _utilService: UtilService,
@@ -33,14 +34,17 @@ export class SettingsComponent implements OnInit {
     private _animalService: AnimalService
   ){}
 
+  //Inicio del componente
   ngOnInit(): void {
     this.initForm();
 
+    //Obtención de los corrales
     this._penService.getAllPen().subscribe((data)=>{
       this.corrales = data;
     })
   }
 
+  //Establecimiento del formulario
   initForm(){
     this.formSettings = this.fb.group({
       corral: [null, Validators.required],
@@ -48,20 +52,24 @@ export class SettingsComponent implements OnInit {
     });
   }
 
+  //Función que carga los combobox de acuerdo a la capacidad del corral
   loadCapacities() {
-    this.onTypeChange();
-    const corralId = this.corralControl.value;
-    const type = this.typeControl.value;
-    this.selectedCorral = this.corrales.find(corral => corral._id === corralId);
+    this.availableAnimals = []; // Limpiar las opciones de animales cuando cambie el tipo
+    const corralId = this.corralControl.value; //Obtención del id del corral seleccionado
+    const type = this.typeControl.value; //Obtención del tipo del tipo de animal seleccionado
+    this.selectedCorral = this.corrales.find(corral => corral._id === corralId); //Obtención de los datos del corral seleccionado
+    
+    //Si el corral y el tipo de animal están seleccionados
     if (this.selectedCorral && type) {
       this.capacities = [];
 
       // Limpiar formSettings
       this.formSettings.removeControl('animal');
       for (let i = 0; i < 1; i++) {
-        this.addAnimal();
+        this.addAnimal(); //Agrega un combobox
       }
 
+      //Obtención de los animales por el tipo de peligrosidad
       this._animalService.getAnimalsByType(type).subscribe((data)=>{
         this.availableAnimals = data;
       })
@@ -71,30 +79,38 @@ export class SettingsComponent implements OnInit {
     }
   }
 
+  //Función que permite agregar un combobox
   addAnimal() {
+    // Si supera la capacidad, no agrega más combobox
     if (this.capacities.length >= this.selectedCorral.capacity) {
-      return; // Si ya se alcanzó, salir de la función sin agregar más elementos
+      return; 
     }
 
+    //Obtención de la capacidad
     const index = this.capacities.length;
 
+    //Agrega un combobox
     this.capacities.push(null);
     this.formSettings.addControl('animal' + index, new FormControl(null, Validators.required));
   }
 
+  //Función que permite eliminar un combobox
   removeAnimal() {
+    // Si solo queda uno, no se elimina
     if (this.capacities.length === 1) {
-      return; // Si solo queda uno, salir de la función sin eliminarlo
+      return; 
     }
 
+    //Obtención de la capacidad
     const index = this.capacities.length;
 
-    this.capacities.pop(); // Eliminar el último elemento de this.capacities
+    //Elmina un combobox
+    this.capacities.pop();
     this.formSettings.removeControl('animal' + index);
   }
 
+  //Función que verifica si un animal ya ha sido seleccionado anteriormente
   shouldDisableOption(animalId: string, index: number): boolean {
-    // Verifica si el animalId ya ha sido seleccionado en los combobox anteriores
     for (let i = 0; i < index; i++) {
       if (this.formSettings.get('animal' + i)?.value === animalId) {
         return true; // Si está seleccionado, deshabilitar esta opción
@@ -103,22 +119,19 @@ export class SettingsComponent implements OnInit {
     return false; // Si no está seleccionado, dejar habilitada la opción
   }
 
-  onTypeChange() {
-    // Limpiar las opciones de animales cuando cambie el tipo
-    this.availableAnimals = [];
-  }
-
+  //Función que guarda el registro
   save(){
     const selectedAnimals = [];
     for (const controlName of Object.keys(this.formSettings.controls)) {
       if (controlName.startsWith('animal')) {
-        const animalId = this.formSettings.get(controlName)?.value;
+        const animalId = this.formSettings.get(controlName)?.value; //Obtención del id del animal seleccionado
         if (animalId) {
-          selectedAnimals.push(animalId);
+          selectedAnimals.push(animalId); //Añade al array
         }
       }
     }
 
+    //Establecimiento del formato de envío
     const formPen = {
       animals: selectedAnimals
     }
@@ -128,21 +141,25 @@ export class SettingsComponent implements OnInit {
       pen_id: this.corralControl.value
     }
     
+    //Si los campos no están vacíos
     if(this.typeControl.value !== null && this.corralControl.value !== null){
+      //Si no está seleccionado ningún animal
       if (selectedAnimals.length === 0) {
         this._utilService.showAlert('Datos incompletos', 'Debe seleccionar al menos un animal', 'WARNING');
-        return; // Detener la ejecución si no hay animales seleccionados
-    }
+        return;
+      }
+      //Envío de datos
       this._penService.putPen(this.corralControl.value,formPen).subscribe({
         next:() => {
           for (let i = 0; i < selectedAnimals.length; i++) {
             this._animalService.putAnimal(selectedAnimals[i],formAnimal).subscribe({
-              next:() =>{
-  
-              }
+              next:() =>{}
             })
           }
+          //Mensaje de éxito
           this._utilService.showAlert('Registro Exitoso','Se ha configurado la información correctamente','SUCCESS');
+          
+          //Limpieza del formulario
           this.typeControl.setValue(null);
           this.corralControl.setValue(null);
           this.availableAnimals = [];
@@ -151,10 +168,8 @@ export class SettingsComponent implements OnInit {
       })
     }
     else{
+      //Mensaje de advertencia
       this._utilService.showAlert('Datos incompletos','Falta completar los campos','WARNING');
     }
-
-
-    
   }
 }

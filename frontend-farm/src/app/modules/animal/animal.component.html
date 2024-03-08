@@ -1,42 +1,50 @@
 <div class="container mt-5">
-    <div class="row">
-      <div class="col-md-12 text-center">
-        <h2>Añadir Animales</h2>
-      </div>
-    </div>
-    <br/>
-    <div class="row justify-content-center">
-      <div class="col-md-6">
-        <form [formGroup]="formAnimal" (submit)="save()">
-          <div class="form-group">
-            <label for="nombreAnimal" style="font-weight: bold;">Nombre:</label>
-            <input type="text" class="form-control" formControlName="animal" id="nombreAnimal" placeholder="Ejm: caballo" required (keydown.enter)="$event.preventDefault()">
-          </div>
-          <br/>
-          <div class="form-group">
-            <label for="edadAnimal" style="font-weight: bold;">Edad: </label>
-            <input type="number" class="form-control" formControlName="age" id="edadAnimal" placeholder="0" required (keydown.enter)="$event.preventDefault()">
-          </div>
-          <br/>
-          <div class="form-group">
-            <label for="tipoAnimal" style="font-weight: bold;">Tipo de Animal</label>
-            <select class="form-control" [formControl]="typeControl" id="tipoAnimal" required>
-              <option [ngValue]="null" disabled>--Seleccione--</option>
-              <option value="peligroso">Peligroso</option>
-              <option value="noPeligroso">No Peligroso</option>
-            </select>
-          </div>
-          <br/>
-          <div class="row">
-            <div class="col-md-6">
-                <button [routerLink]="['/farm']" class="bg-secondary btn btn-primary w-100">Regresar</button>
-            </div>
-            <div class="col-md-6">
-                <button type="submit" class="bg-success btn btn-primary w-100">Enviar</button>
-            </div>
-          </div>
-        </form>
-      </div>
+  <!--Título-->
+  <div class="row">
+    <div class="col-md-12 text-center">
+      <h2>Añadir Animales</h2>
     </div>
   </div>
+  <br/>
+  
+  <!--Formulario para Añadir Animales-->
+  <div class="row justify-content-center">
+    <div class="col-md-6">
+      <form [formGroup]="formAnimal" (submit)="save()">
+        <!--Campo Nombre-->
+        <div class="form-group">
+          <label for="nombreAnimal" style="font-weight: bold;">Nombre:</label>
+          <input type="text" class="form-control" formControlName="animal" id="nombreAnimal" placeholder="Ejm: caballo" required (keydown.enter)="$event.preventDefault()">
+        </div>
+        <br/>
+        <!--Campo Edad-->
+        <div class="form-group">
+          <label for="edadAnimal" style="font-weight: bold;">Edad: </label>
+          <input type="number" class="form-control" formControlName="age" id="edadAnimal" required min="1" placeholder="0" required (keydown.enter)="$event.preventDefault()">
+        </div>
+        <br/>
+        <!--Campo Tipo-->
+        <div class="form-group">
+          <label for="tipoAnimal" style="font-weight: bold;">Tipo de Animal</label>
+          <select class="form-control" [formControl]="typeControl" id="tipoAnimal" required>
+            <option [ngValue]="null" disabled>--Seleccione--</option>
+            <option value="peligroso">Peligroso</option>
+            <option value="noPeligroso">No Peligroso</option>
+          </select>
+        </div>
+        <br/>
+        <div class="row">
+          <!--Botón de Regresar-->
+          <div class="col-md-6">
+            <button [routerLink]="['/farm']" class="bg-secondary btn btn-primary w-100">Regresar</button>
+          </div>
+          <!--Botón de Enviar-->
+          <div class="col-md-6">
+            <button type="submit" class="bg-success btn btn-primary w-100">Enviar</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
   

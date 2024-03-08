@@ -65,25 +65,10 @@ module.exports.getAnimalsByPen = (request, response) => {
         .catch(err => response.status(400).json(err));
 }
 
-//GET BY ID Animal
-module.exports.getAnimal = (request,response) => {
-    //Recupera un animal de la consulta de acuerdo al ID ingresado en la URL
-    Animal.findOne({_id: request.params.id})
-        .then(animal => response.status(200).json(animal))
-        .catch(err => response.status(400).json(err))
-}
-
 //PUT Animal
 module.exports.updateAnimal = (request,response) => {
     //Actualiza un animal de la consulta de acuerdo al ID ingresado en la URL
     Animal.findOneAndUpdate({_id: request.params.id},request.body,{new:true})
         .then(updateAnimal => response.status(200).json(updateAnimal))
-        .catch(err => response.status(400).json(err))
-}
-
-//DELETE Animal
-module.exports.deleteAnimal = (request,response) => {
-    Animal.deleteOne({_id: request.params.id})
-        .then(deleteAnimal => response.status(200).json(deleteAnimal))
         .catch(err => response.status(400).json(err))
 }

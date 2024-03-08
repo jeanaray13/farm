@@ -14,8 +14,10 @@ import { AccountService } from '../../services/account.service';
   providers: [UtilService, AccountService]
 })
 export class LoginComponent implements OnInit {
+  //Variable incial
   formLogin !: FormGroup;
   
+  //Constructor
   constructor(
     private fb: FormBuilder,
     private _utilService: UtilService,
@@ -23,10 +25,12 @@ export class LoginComponent implements OnInit {
     private router: Router
   ){}
 
+  //Inicio del componente
   ngOnInit(): void {
     this.initForm();
   }
 
+  //Establecimiento del formulario
   initForm(){
     this.formLogin = this.fb.group({
       email: [null, Validators.required],
@@ -34,25 +38,34 @@ export class LoginComponent implements OnInit {
     });
   }
 
+  //Función que permite loguearse al menú principal
   login(){
+    //Establecimiento del formato de envío
     const formData = {
       email: this.formLogin.value.email,
       password: this.formLogin.value.password
     };
 
+    //Si los campos no están vacíos
     if(this.formLogin.value.email !== null || this.formLogin.value.password !== null){
+      //Envío de datos
       this._accountService.verifyAccount(formData).subscribe({
         next:(login:any)=>{
+          //Si recibe un mensaje
           if(login.msg=="Login Success"){
+            //Mensaje de éxito y redirección
             this._utilService.showAlert('Acceso Exitoso','Iniciando sesión...','SUCCESS');
             this.router.navigate(['/farm']);
           }
         },
         error:(error:any)=>{
+          //Si recibe un mensaje de error
           if(error.error.msg=="Account not exist"){
+            //Mensaje de error
             this._utilService.showAlert('Error','Cuenta no existente','ERROR');
           }
           else{
+            //Mensaje de advertencia
             this._utilService.showAlert('Contraseña invalida','Ingrese la contraseña correcta','WARNING');
           }
         }
@@ -60,6 +73,7 @@ export class LoginComponent implements OnInit {
       })
     }
     else{
+      //Mensaje de advertencia
       this._utilService.showAlert('Datos incompletos','Falta completar los campos','WARNING');
     }
   }

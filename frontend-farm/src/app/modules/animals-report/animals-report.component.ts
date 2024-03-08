@@ -7,9 +7,9 @@ import { PenService } from '../../services/pen.service';
 import { UtilService } from '../../services/util.service';
 import { AnimalService } from '../../services/animal.service';
 
+//Librería para la generació del PDF
 import pdfMake from 'pdfmake/build/pdfmake';
 import pdfFonts from 'pdfmake/build/vfs_fonts';
-
 pdfMake.vfs = pdfFonts.pdfMake.vfs;
 
 @Component({
@@ -21,12 +21,13 @@ pdfMake.vfs = pdfFonts.pdfMake.vfs;
   providers:[PenService,UtilService, AnimalService]
 })
 export class AnimalsReportComponent implements OnInit{
+  //Variables iniciales
   corralControl = new FormControl();
-
   corrales: any[]=[];
   animales: any[]=[];
   promedio: Number;
 
+  //Constructor
   constructor(
     private fb: FormBuilder,
     private _utilService: UtilService,
@@ -34,18 +35,17 @@ export class AnimalsReportComponent implements OnInit{
     private _animalService: AnimalService
   ){}
 
+  //Inicio del comopnente
   ngOnInit(): void {
-
+    //Obtención de los corrales
     this._penService.getAllPen().subscribe((data)=>{
       this.corrales = data;
     })
-
-
+    //Obtención de los animales y promedio de edad de acuerdo al corral seleccionado
     this.corralControl.valueChanges.subscribe(selectedValue => {
       this._animalService.getAnimalsByPen(selectedValue).subscribe((data)=>{
         this.animales = data;
       })
-
       this._animalService.getAverage(selectedValue).subscribe((promedio)=>{
         this.promedio = promedio.toFixed(2);
       })
@@ -53,20 +53,24 @@ export class AnimalsReportComponent implements OnInit{
     
   }
 
+  //Función para la generación del reporte
   async generateReport(){
+    
     //Imagen Header
     const headerimg = '../assets/images/header.png';
     const base64HeaderImage = await this.getBase64Image(headerimg);
 
+    //Obtención de los datos del corral seleccionado
     const selectedCorral = this.corrales.find(corral => corral._id === this.corralControl.value);
 
-    // Genera el contenido para la tabla con colores según el riesgo
+    // Genera el contenido para la tabla con colores según su peligrosidad
     const content = this.animales.map((item: any, index: number) => [
       { text: '\n'+item.animal || '', bold: true, alignment: 'center', fillColor: index % 2 === 0 ? "#FFFFFF":"#F8F6F6", fontSize: 10, border: [], marginLeft: 10 },
       { text: '\n'+item.age || '', bold: true, alignment: 'center', fillColor: index % 2 === 0 ? "#FFFFFF":"#F8F6F6", fontSize: 10, border: [], marginLeft: 10 },
       { canvas: [{ type: 'rect', x: 10, y: 8, w: 12, h: 12, r: 0, color: this.getColorByRisk(item.type) }], fillColor: index % 2 === 0 ? "#FFFFFF":"#F8F6F6", alignment: 'center', margin: [2, 2, 2, 2], border: [] },
-  ]);
+    ]);
 
+    //Formación del documento
     let docDefinition = {
       info: {
           title: "Reporte - La Granja del tío Juán",
@@ -93,7 +97,7 @@ export class AnimalsReportComponent implements OnInit{
           //Contenido de la tabla
           {
               table: {
-                  widths: ['*', '*', '*'], // Ajusta los anchos de las columnas según tus necesidades
+                  widths: ['*', '*', '*'], // Ajusta los anchos de las columnas
                   body: [
                       [
                           { text: "Animal", bold: true, alignment: 'center', fontSize: 11, border: [], color:"#FFFFFF", fillColor: "#602B07"},
@@ -109,8 +113,7 @@ export class AnimalsReportComponent implements OnInit{
             {text: "Promedio: ", bold:true},
             {text: this.promedio}
           ], alignment: 'center' },
-      ],
-      /*footer: {image: base64FooterImage, width: 650, margin: [0, -20, 0, 0],},*/
+      ]
   };
 
   //Crea el PDF
@@ -118,32 +121,31 @@ export class AnimalsReportComponent implements OnInit{
   }
 
   //Función que transforma las imágenes a base64 (bits)
-getBase64Image(url:any) {
-  return new Promise((resolve, reject) => {
-  var img = new Image();
-  img.setAttribute("crossOrigin", "anonymous");
-  img.onload = () => {
-      var canvas = document.createElement("canvas");
-      canvas.width = img.width;
-      canvas.height = img.height;
-      var ctx = canvas.getContext("2d");
-      ctx?.drawImage(img, 0, 0);
-      var dataURL = canvas.toDataURL("image/png");
-      resolve(dataURL);
-  };
-  img.onerror = (error) => {reject(error);};
-  img.src = url;
-  });
-}
-
-//Función para obtener el color del riesgo
-getColorByRisk(type: string): string {
-  switch (type) {
-      case 'peligroso':
-          return "#a21a17"; // Rojo
-      default:
-          return "#afca0b"; // Amarillo
+  getBase64Image(url:any) {
+    return new Promise((resolve, reject) => {
+    var img = new Image();
+    img.setAttribute("crossOrigin", "anonymous");
+    img.onload = () => {
+        var canvas = document.createElement("canvas");
+        canvas.width = img.width;
+        canvas.height = img.height;
+        var ctx = canvas.getContext("2d");
+        ctx?.drawImage(img, 0, 0);
+        var dataURL = canvas.toDataURL("image/png");
+        resolve(dataURL);
+    };
+    img.onerror = (error) => {reject(error);};
+    img.src = url;
+    });
   }
- }
 
+  //Función para obtener el color del riesgo
+  getColorByRisk(type: string): string {
+    switch (type) {
+        case 'peligroso':
+            return "#a21a17"; // Rojo
+        default:
+            return "#afca0b"; // Amarillo
+    }
+  }
 }

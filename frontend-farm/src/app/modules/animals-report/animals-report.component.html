@@ -1,26 +1,30 @@
 <div class="container mt-5">
-    <div class="row">
-      <div class="col-md-12 text-center">
-        <h2>Registro de Animales</h2>
-      </div>
+  <!--Título-->
+  <div class="row">
+    <div class="col-md-12 text-center">
+      <h2>Registro de Animales</h2>
     </div>
-    <br/>
-    <div class="row justify-content-center">
-      <div class="col-md-6">
-        <form>
-          <div class="form-group">
-            <label for="corral" style="font-weight: bold;">Corral:</label>
-            <select class="form-control" [formControl]="corralControl" id="corral" required>
-                <option [ngValue]="null" disabled>--Seleccione--</option>
-                <option *ngFor="let item of corrales" [value]="item._id">{{item?.name}}</option>
-            </select>
-          </div>
-        </form>
+  </div>
+  <br/>
+  
+   <!--Sección del contenido-->
+  <div class="row justify-content-center">
+    <div class="col-md-6">
+      <form>
+        <!--Campo Corral-->
+        <div class="form-group">
+          <label for="corral" style="font-weight: bold;">Corral:</label>
+          <select class="form-control" [formControl]="corralControl" id="corral" required>
+            <option [ngValue]="null" disabled>--Seleccione--</option>
+            <option *ngFor="let item of corrales" [value]="item._id">{{item?.name}}</option>
+          </select>
         </div>
+      </form>
     </div>
-    <br/><br/>
+  </div>
+  <br/><br/>
 
-    <!-- Aquí comienza la tabla -->
+  <!--Tabla de registros-->
   <div class="row mt-3">
     <div class="col-md-12">
       <table class="table text-center table-hover table-striped">
@@ -44,15 +48,17 @@
     </div>
   </div>
 
+  <!--Promedio de edad-->
   <div class="form-group text-center">
     <label for="promedio" style="font-weight: bold;">Promedio: {{ promedio }}</label>
  </div>
-  <!-- Aquí termina la tabla -->
 
   <div class="row justify-content-center mt-3">
     <div class="col-md-6">
+      <!--Botón de regresar-->
       <button [routerLink]="['/farm']" class="bg-secondary btn btn-primary w-100">Regresar</button>
     </div>
+    <!--Botón para generar reporte-->
     <div class="col-md-6">
       <button (click)="generateReport()" class="bg-success btn btn-primary w-100">Generar Reporte</button>
     </div>

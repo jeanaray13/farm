@@ -17,25 +17,10 @@ module.exports.getAllPens = (_,response) => {
         .catch(err => response.status(400).json(err))
 }
 
-//GET BY ID Pen
-module.exports.getPen = (request,response) => {
-    //Recupera un corral de la consulta de acuerdo al ID ingresado en la URL
-    Pen.findOne({_id: request.params.id})
-        .then(pen => response.status(200).json(pen))
-        .catch(err => response.status(400).json(err))
-}
-
 //PUT Pen
 module.exports.updatePen = (request,response) => {
     //Actualiza un corral de la consulta de acuerdo al ID ingresado en la URL
     Pen.findOneAndUpdate({_id: request.params.id},request.body,{new:true})
         .then(updatePen => response.status(200).json(updatePen))
-        .catch(err => response.status(400).json(err))
-}
-
-//DELETE Pen
-module.exports.deletePen = (request,response) => {
-    Pen.deleteOne({_id: request.params.id})
-        .then(deletePen => response.status(200).json(deletePen))
         .catch(err => response.status(400).json(err))
 }

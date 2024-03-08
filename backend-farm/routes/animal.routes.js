@@ -5,9 +5,7 @@ const AnimalController = require('../controllers/animal.controller');
 module.exports = function(app){
     app.post('/api/animal/new', AnimalController.createAnimal);
     app.get('/api/animals', AnimalController.getAllAnimals);
-    app.get('/api/animal/:id', AnimalController.getAnimal);
     app.put('/api/animal/:id', AnimalController.updateAnimal);
-    app.delete('/api/animal/:id', AnimalController.deleteAnimal);
     app.get('/api/animalsType/:type', AnimalController.getAnimalsByType);
     app.get('/api/animalsPen/:pen', AnimalController.getAnimalsByPen);
     app.get('/api/animalsPen/average/:pen', AnimalController.getAverage);

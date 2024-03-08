@@ -8,6 +8,7 @@ import { LoginComponent } from './modules/login/login.component';
 import { SignUpComponent } from './modules/sign-up/sign-up.component';
 
 export const routes: Routes = [
+    //Establecimiento de las rutas
     {
         path: '',
         component: LoginComponent

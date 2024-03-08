@@ -1,34 +1,40 @@
 <div class="container mt-5">
-    <div class="row">
-      <div class="col-md-12 text-center">
-        <h2>Añadir Corrales</h2>
-      </div>
-    </div>
-    <br/>
-    <div class="row justify-content-center">
-      <div class="col-md-6">
-        <form [formGroup]="formPen" (submit)="save()">
-          <div class="form-group">
-            <label for="nombreCorral" style="font-weight: bold;">Nombre:</label>
-            <input type="text" class="form-control" formControlName="name" id="nombreCorral" placeholder="Ejm: Corral de Caballos" (keydown.enter)="$event.preventDefault()">
-          </div>
-          <br/>
-          <div class="form-group">
-            <label for="capacidad" style="font-weight: bold;">Capacidad: </label>
-            <input type="number" class="form-control" formControlName="capacity" id="capacidad" placeholder="0" (keydown.enter)="$event.preventDefault()">
-          </div>
-          <br/>
-          <div class="row">
-            <div class="col-md-6">
-                <button [routerLink]="['/farm']" class="bg-secondary btn btn-primary w-100">Regresar</button>
-            </div>
-            <div class="col-md-6">
-                <button type="submit" class="bg-success btn btn-primary w-100">Enviar</button>
-            </div>
-          </div>
-          
-        </form>
-      </div>
+  <!--Título-->
+  <div class="row">
+    <div class="col-md-12 text-center">
+      <h2>Añadir Corrales</h2>
     </div>
   </div>
+  <br/>
+  
+  <div class="row justify-content-center">
+    <div class="col-md-6">
+      <form [formGroup]="formPen" (submit)="save()">
+        <!--Campo Nombre-->
+        <div class="form-group">
+          <label for="nombreCorral" style="font-weight: bold;">Nombre:</label>
+          <input type="text" class="form-control" formControlName="name" id="nombreCorral" placeholder="Ejm: Corral de Caballos" (keydown.enter)="$event.preventDefault()">
+        </div>
+        <br/>
+        <!--Campo Capacidad-->
+        <div class="form-group">
+          <label for="capacidad" style="font-weight: bold;">Capacidad: </label>
+          <input type="number" class="form-control" formControlName="capacity" id="capacidad" placeholder="0" required min="1" (keydown.enter)="$event.preventDefault()">
+        </div>
+        <br/>
+       
+        <div class="row">
+           <!--Botón de Regresar-->
+          <div class="col-md-6">
+              <button [routerLink]="['/farm']" class="bg-secondary btn btn-primary w-100">Regresar</button>
+          </div>
+           <!--Botón de Enviar-->
+          <div class="col-md-6">
+              <button type="submit" class="bg-success btn btn-primary w-100">Enviar</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
   
