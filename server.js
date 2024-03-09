@@ -15,6 +15,7 @@ app.use(express.json()); //Utiliza métodos HTTP y obtiene los datos en JSON
 app.use(express.urlencoded({ extended: true }));  //Obtiene los datos de la URL
 
 //Llamada a las rutas
+const bodyParser = require("body-parser");
 const accountRoutes = require('./backend-farm/routes/account.routes');
 accountRoutes(app); //Envía los datos a account.routes
 
@@ -24,5 +25,8 @@ animalRoutes(app); //Envía los datos a animal.routes
 const penRoutes = require('./backend-farm/routes/pen.routes');
 penRoutes(app); //Envía los datos a animal.routes
 
+const { swaggerDocs: V1SwaggerDocs } = require("./backend-farm/routes/swagger");
+app.use(bodyParser.json());
+
 //Establecimiento del puerto
-app.listen(port, () => {console.log("Servidor escuchando en el puerto", port);})
+app.listen(port, () => {console.log("Servidor escuchando en el puerto", port); V1SwaggerDocs(app, port);})

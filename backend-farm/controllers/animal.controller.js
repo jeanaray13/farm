@@ -9,14 +9,6 @@ module.exports.createAnimal = (request,response) => {
         .catch(err => response.status(400).json(err))
 }
 
-//GET ALL Animal
-module.exports.getAllAnimals = (_,response) => {
-    //Recupera todos los animales de la consulta
-    Animal.find({})
-        .then(retrievedAnimal => response.status(200).json(retrievedAnimal))
-        .catch(err => response.status(400).json(err))
-}
-
 //GET Animal by type
 module.exports.getAnimalsByType = (request, response) => {
     const { type } = request.params;

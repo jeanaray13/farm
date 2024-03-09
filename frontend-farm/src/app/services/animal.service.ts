@@ -19,11 +19,6 @@ export class AnimalService {
   sendAnimal(data:any):Observable<any>{
     return this.http.post<any>(`${this.URL_BASE}/animal/new`,data);
   }
-
-  //GET Animal
-  getAllAnimals():Observable<any>{
-    return this.http.get<any>(`${this.URL_BASE}/animals`);
-  }
   
   //GET Animal by type
   getAnimalsByType(data:string):Observable<any>{
